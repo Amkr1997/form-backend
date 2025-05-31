@@ -57,7 +57,7 @@ const addQuestion = async (req, res) => {
       return res.status(404).json({ message: "Details cannot get save" });
     }
 
-    // sendMail(userData); // used for sending mail to user filling form
+    sendMail(userData); // used for sending mail to user filling form
 
     return res.status(200).json({ message: "Details saved", details: newUser });
   } catch (error) {

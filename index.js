@@ -1,8 +1,8 @@
-const { initialisation } = require("./db/db.connect");
+// const { initialisation } = require("./db/db.connect");
 require("dotenv").config({ path: ".env" });
 const questionRouter = require("./routes/questions.routes");
 
-initialisation();
+// initialisation();
 
 const express = require("express");
 const cors = require("cors");

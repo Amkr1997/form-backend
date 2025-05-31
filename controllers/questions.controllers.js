@@ -1,3 +1,4 @@
+const connectDB = require("../db/dbSec.connect");
 const nodeMailer = require("nodemailer");
 const SingleUser = require("../models/singleUserSchema.model");
 require("dotenv").config({ path: ".env" });
@@ -47,6 +48,8 @@ const addQuestion = async (req, res) => {
   const userData = req.body;
 
   try {
+    await connectDB();
+
     const newUser = await SingleUser.create(userData);
 
     // const newDetails = new SingleUser(userData);
@@ -68,6 +71,8 @@ const addQuestion = async (req, res) => {
 
 const getAllQUestions = async (req, res) => {
   try {
+    await connectDB();
+
     const allQuestions = await SingleUser.find();
 
     if (!allQuestions) {
@@ -87,6 +92,8 @@ const deleteDetails = async (req, res) => {
   const id = req.params.id;
 
   try {
+    await connectDB();
+
     const deletedDetails = await SingleUser.findByIdAndDelete(id);
 
     if (!deletedDetails) {

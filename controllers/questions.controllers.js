@@ -3,8 +3,11 @@ const nodeMailer = require("nodemailer");
 const SingleUser = require("../models/singleUserSchema.model");
 require("dotenv").config({ path: ".env" });
 
+console.log(process.env.AMAN_MESSOLD_PASS);
+
 // Configure mail
 const sendMail = async (userData) => {
+  console.log(userData?.questionsAnswers?.[1]?.answer);
   // Creating email transporter,
   // SMTP (Simple Mail Transfer Protocol)
   const transporter = nodeMailer.createTransport({
@@ -37,8 +40,8 @@ const sendMail = async (userData) => {
 
   // Send Email
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully!");
+    const res = await transporter.sendMail(mailOptions);
+    return res;
   } catch (error) {
     console.log("Error while sending email: ", error);
   }
@@ -60,7 +63,15 @@ const addQuestion = async (req, res) => {
       return res.status(404).json({ message: "Details cannot get save" });
     }
 
-    sendMail(userData); // used for sending mail to user filling form
+    const mailResponse = await sendMail(userData); // used for sending mail to user filling form
+
+    // console.log(mailResponse);
+
+    if (!mailResponse) {
+      return res.status(404).json({ message: "Mail not send" });
+    }
+
+    // console.log("Email sent successfully!");
 
     return res.status(200).json({ message: "Details saved", details: newUser });
   } catch (error) {
